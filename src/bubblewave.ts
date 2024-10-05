@@ -21,8 +21,11 @@ gui.add(params, "zWaveFactor", 0, 1);
 gui.add(params, "numDrones", 1, 200).step(1).onChange(createDrones);
 
 // Drone class
-class Drone {
-  constructor(position) {
+class Bubble {
+  position: THREE.Vector3;
+  initialY: number;
+  mesh: THREE.Mesh;
+  constructor(position: THREE.Vector3) {
     this.position = position.clone();
     this.initialY = this.position.y;
 
@@ -34,7 +37,7 @@ class Drone {
     scene.add(this.mesh);
   }
 
-  update(elapsedTime) {
+  update(elapsedTime: number) {
     // Oscillate in Y
     const waveAmplitude = params.amplitude;
     const waveFrequency = params.frequency;
@@ -56,17 +59,21 @@ class Drone {
     this.mesh.lookAt(this.position.clone().add(new THREE.Vector3(0, 1, 0)));
 
     const hue = (this.position.y + params.amplitude) / (2 * params.amplitude);
-    this.mesh.material.color.setHSL(hue, 1, 0.5);
+    (this.mesh.material as THREE.MeshStandardMaterial).color.setHSL(
+      hue,
+      1,
+      0.5
+    );
   }
 }
 
 // Create drones
-const drones = [];
+const bubbles: Bubble[] = [];
 
 function createDrones() {
   // Remove existing drones
-  drones.forEach((drone) => scene.remove(drone.mesh));
-  drones.length = 0;
+  bubbles.forEach((drone) => scene.remove(drone.mesh));
+  bubbles.length = 0;
 
   // Grid dimensions
   const gridSize = Math.ceil(Math.sqrt(params.numDrones));
@@ -74,14 +81,14 @@ function createDrones() {
 
   for (let x = 0; x < gridSize; x++) {
     for (let z = 0; z < gridSize; z++) {
-      if (drones.length >= params.numDrones) break;
+      if (bubbles.length >= params.numDrones) break;
       const position = new THREE.Vector3(
         (x - (gridSize - 1) / 2) * spacing,
         50, // Start at ground level
         (z - (gridSize - 1) / 2) * spacing
       );
-      const drone = new Drone(position);
-      drones.push(drone);
+      const drone = new Bubble(position);
+      bubbles.push(drone);
     }
   }
 }
@@ -94,7 +101,7 @@ function animate() {
 
   const elapsedTime = performance.now() * 0.001; // Convert to seconds
 
-  drones.forEach((drone) => {
+  bubbles.forEach((drone) => {
     drone.update(elapsedTime);
   });
 
