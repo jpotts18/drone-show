@@ -6,18 +6,32 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "gh-pages -d dist"
   },
   "keywords": [],
+  "homepage": "https://jpotts18.github.io/drone-show/",
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@chakra-ui/react": "^2.10.1",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
     "dat.gui": "^0.7.9",
+    "framer-motion": "^11.11.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.2",
     "three": "^0.169.0"
   },
   "devDependencies": {
     "@types/dat.gui": "^0.7.13",
+    "@types/node": "^22.7.4",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.0",
     "@types/three": "^0.169.0",
+    "@vitejs/plugin-react": "^4.3.2",
+    "gh-pages": "^6.1.1",
     "typescript": "^5.6.2",
     "vite": "^5.4.8"
   }
