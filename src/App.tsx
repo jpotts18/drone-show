@@ -1,15 +1,17 @@
 // src/App.tsx
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import Gallery from "./Gallery";
-import Experiment from "./Experiment";
+import Bubblewave from "./BubbleWave";
+import Boids from "./Boids";
 
 const App: React.FC = () => {
   return (
-    <Router basename={process.env.PUBLIC_URL}>
+    <Router>
       <Routes>
         <Route path="/" element={<Gallery />} />
-        <Route path="/experiment" element={<Experiment />} />
+        <Route path="/bubblewave" element={<Bubblewave />} />
+        <Route path="/boids" element={<Boids />} />
         {/* Add routes for other experiments */}
       </Routes>
     </Router>

@@ -13,18 +13,17 @@ import {
 
 const experiments = [
   {
-    id: "experiment",
+    id: "bubblewave",
     title: "Bubble Wave",
     description: "A wave of bubbles using Three.js.",
     image: "/images/bubblewave.png", // Provide appropriate images
   },
   {
-    id: "experiment2",
-    title: "L-System Tree",
-    description: "Fractal tree generated using L-System.",
-    image: "/images/lsystem.png",
+    id: "boids",
+    title: "Bird Flock simulation",
+    description: "A flock of boids.",
+    image: "/images/boids.png", // Provide appropriate images
   },
-  // Add more experiments as needed
 ];
 
 const Gallery: React.FC = () => {
@@ -41,12 +40,7 @@ const Gallery: React.FC = () => {
             borderRadius="lg"
             overflow="hidden"
           >
-            <Image
-              src={exp.image}
-              alt={exp.title}
-              objectFit="cover"
-              boxSize={""}
-            />
+            <Image src={import.meta.env.BASE_URL + exp.image} alt={exp.title} />
             <Box p={6}>
               <Stack spacing={2}>
                 <Heading size="md">{exp.title}</Heading>
