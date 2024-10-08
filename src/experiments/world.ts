@@ -5,7 +5,8 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 // Basic setup
 export const initWorld = () => {
-  const gui = new dat.GUI();
+  // const gui = new dat.GUI();
+
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x000000);
 
@@ -54,7 +55,6 @@ export const initWorld = () => {
   scene.add(axesHelper);
 
   return {
-    gui,
     scene,
     camera,
     renderer,

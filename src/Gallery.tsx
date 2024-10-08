@@ -24,6 +24,12 @@ const experiments = [
     description: "A flock of boids.",
     image: "/images/boids.png", // Provide appropriate images
   },
+  {
+    id: "easing",
+    title: "Easing Functions",
+    description: "Visualizing easing functions.",
+    image: "/images/easing.png", // Provide appropriate images
+  },
 ];
 
 const Gallery: React.FC = () => {

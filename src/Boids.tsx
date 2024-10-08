@@ -1,16 +1,41 @@
 // src/experiments/Experiment1.tsx
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
 
 import { initWorld } from "./experiments/world";
+import dat from "dat.gui";
+import ExperimentWrapper from "./ExperimentWrapper";
 
 const Boids: React.FC = () => {
+  const containerRef = React.useRef<HTMLDivElement>(null);
+  const guiRef = useRef<dat.GUI | null>(null);
+
   useEffect(() => {
-    const { gui, scene, camera, renderer, controls } = initWorld();
+    const { scene, camera, renderer, controls } = initWorld();
     // Your experiment setup and animation code here
+    if (containerRef.current) {
+      containerRef.current.appendChild(renderer.domElement);
+    }
+    // Handle window resize
+    const handleResize = () => {
+      const width = containerRef.current?.clientWidth || window.innerWidth;
+      const height = containerRef.current?.clientHeight || window.innerHeight;
+
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+
+      renderer.setSize(width, height);
+      renderer.setPixelRatio(window.devicePixelRatio);
+    };
+
+    // Add event listener
+    window.addEventListener("resize", handleResize);
+
+    // Call the handler once to set the initial size
+    handleResize();
 
     const params = {
-      separationWeight: 1.5,
+      separationWeight: 5,
       alignmentWeight: 1.0,
       cohesionWeight: 1.0,
       maxSpeed: 2,
@@ -28,17 +53,21 @@ const Boids: React.FC = () => {
       },
     };
 
-    gui.add(params, "separationWeight", 0, 5);
-    gui.add(params, "alignmentWeight", 0, 5);
-    gui.add(params, "cohesionWeight", 0, 5);
-    gui.add(params, "maxSpeed", 0, 10).onChange((value) => {
-      boids.forEach((boid) => (boid.maxSpeed = value));
-    });
-    gui.add(params, "maxForce", 0, 1).onChange((value) => {
-      boids.forEach((boid) => (boid.maxForce = value));
-    });
-    gui.add(params, "numBoids", 1, 100).step(1);
-    gui.add(params, "resetBoids");
+    if (guiRef.current === null) {
+      guiRef.current = new dat.GUI();
+
+      guiRef.current.add(params, "separationWeight", 5, 10);
+      guiRef.current.add(params, "alignmentWeight", 0, 5);
+      guiRef.current.add(params, "cohesionWeight", 0, 5);
+      guiRef.current.add(params, "maxSpeed", 0, 10).onChange((value) => {
+        boids.forEach((boid) => (boid.maxSpeed = value));
+      });
+      guiRef.current.add(params, "maxForce", 0, 1).onChange((value) => {
+        boids.forEach((boid) => (boid.maxForce = value));
+      });
+      guiRef.current.add(params, "numBoids", 1, 100).step(1);
+      guiRef.current.add(params, "resetBoids");
+    }
 
     // Boid class
     class Boid {
@@ -64,7 +93,7 @@ const Boids: React.FC = () => {
         this.maxForce = params.maxForce;
 
         // Visual representation
-        const geometry = new THREE.SphereGeometry(0.5, 2, 8);
+        const geometry = new THREE.SphereGeometry(2, 16, 16);
         const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
         this.mesh = new THREE.Mesh(geometry, material);
         scene.add(this.mesh);
@@ -237,13 +266,35 @@ const Boids: React.FC = () => {
     // Cleanup on unmount
     return () => {
       // Remove renderer and perform any cleanup
-      if (container) {
-        container.removeChild(renderer.domElement);
+      if (containerRef.current) {
+        containerRef.current.removeChild(renderer.domElement);
       }
+      if (guiRef.current) {
+        guiRef.current.destroy();
+        guiRef.current = null;
+      }
+      // Remove event listener
+      window.removeEventListener("resize", handleResize);
+
+      // Dispose of renderer, scene, and controls if necessary
+      renderer.dispose();
     };
   }, []);
 
-  return <div id="three-container" />;
+  return (
+    <ExperimentWrapper title="Boids">
+      <div
+        ref={containerRef}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+        }}
+      />
+    </ExperimentWrapper>
+  );
 };
 
 export default Boids;
