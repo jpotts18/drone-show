@@ -43,14 +43,12 @@ const ExperimentWrapper: React.FC<ExperimentLayoutProps> = ({
         {children}
       </Box>
       {/* dat.GUI Container */}
-      <div
+      <Box
         id="gui-container"
-        style={{
-          position: "absolute",
-          top: "160px", // Adjust based on your navigation bar height
-          right: "0",
-          zIndex: 1000,
-        }}
+        position="absolute"
+        top="76px"
+        right="4px"
+        zIndex={10}
       />
     </Flex>
   );

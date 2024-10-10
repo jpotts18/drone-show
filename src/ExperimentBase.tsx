@@ -75,11 +75,14 @@ export function createExperiment<T extends Record<string, any>>(
       window.addEventListener("resize", handleResize);
       handleResize();
 
-      const params = experiment.getInitialParams();
-
       if (guiRef.current === null) {
-        guiRef.current = new dat.GUI();
-        experiment.setupGui(guiRef.current, params);
+        // Initialize and position the GUI
+        guiRef.current = new dat.GUI({ autoPlace: false });
+        experiment.setupGui(guiRef.current, experiment.getInitialParams());
+        const guiContainer = document.getElementById("gui-container");
+        if (guiContainer && guiRef.current.domElement) {
+          guiContainer.appendChild(guiRef.current.domElement);
+        }
       }
 
       experiment.setup();

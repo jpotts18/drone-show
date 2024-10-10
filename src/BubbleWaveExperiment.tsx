@@ -1,5 +1,4 @@
-import { ExperimentBase, createExperiment } from "./ExperimentBase";
-import * as THREE from "three";
+import { ExperimentBase, createExperiment } from "./ExperimentBase.tsx";
 
 import { BubbleWaveDrone, BubbleWaveParams } from "./drones/bubblewave.ts";
 

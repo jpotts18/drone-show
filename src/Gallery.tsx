@@ -10,6 +10,7 @@ import {
   Stack,
   Heading,
 } from "@chakra-ui/react";
+import { title } from "process";
 
 const experiments = [
   {
@@ -29,6 +30,12 @@ const experiments = [
     title: "Easing Functions",
     description: "Visualizing easing functions.",
     image: "/images/easing.png", // Provide appropriate images
+  },
+  {
+    id: "sphere",
+    title: "Sphere",
+    description: "A sphere with a texture.",
+    image: "/images/sphere.png", // Provide appropriate images
   },
 ];
 
