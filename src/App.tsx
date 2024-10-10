@@ -11,7 +11,10 @@ const App: React.FC = () => {
     <Router>
       <Routes>
         <Route path="/" element={<Gallery />} />
-        <Route path="/bubblewave" element={<Bubblewave />} />
+        <Route
+          path="/bubblewave"
+          element={<Bubblewave title="Bubble Wave" />}
+        />
         <Route path="/boids" element={<Boids />} />
         <Route path="/easing" element={<Easing />} />
         {/* Add routes for other experiments */}
