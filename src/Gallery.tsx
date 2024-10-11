@@ -1,16 +1,7 @@
 // src/Gallery.tsx
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
-import {
-  Box,
-  SimpleGrid,
-  Image,
-  Text,
-  Link,
-  Stack,
-  Heading,
-} from "@chakra-ui/react";
-import { title } from "process";
+import { Box, SimpleGrid, Image, Text, Stack, Heading } from "@chakra-ui/react";
 
 const experiments = [
   {
@@ -33,9 +24,15 @@ const experiments = [
   },
   {
     id: "sphere",
-    title: "Sphere",
+    title: "Beating Sphere",
     description: "A sphere with a texture.",
     image: "/images/sphere.png", // Provide appropriate images
+  },
+  {
+    id: "cube",
+    title: "Cube",
+    description: "Cube with drones.",
+    image: "/images/cube.png", // Provide appropriate images
   },
 ];
 
@@ -47,28 +44,20 @@ const Gallery: React.FC = () => {
       </Heading>
       <SimpleGrid columns={[1, 2, 3]} spacing={10}>
         {experiments.map((exp) => (
-          <Box
-            key={exp.id}
-            borderWidth="1px"
-            borderRadius="lg"
-            overflow="hidden"
-          >
-            <Image src={import.meta.env.BASE_URL + exp.image} alt={exp.title} />
-            <Box p={6}>
-              <Stack spacing={2}>
-                <Heading size="md">{exp.title}</Heading>
-                <Text>{exp.description}</Text>
-                <Link
-                  as={RouterLink}
-                  to={`/${exp.id}`}
-                  color="teal.500"
-                  fontWeight="bold"
-                >
-                  View Experiment
-                </Link>
-              </Stack>
+          <RouterLink key={exp.id} to={`/${exp.id}`}>
+            <Box borderWidth="1px" borderRadius="lg" overflow="hidden">
+              <Image
+                src={import.meta.env.BASE_URL + exp.image}
+                alt={exp.title}
+              />
+              <Box p={6}>
+                <Stack spacing={2}>
+                  <Heading size="md">{exp.title}</Heading>
+                  <Text>{exp.description}</Text>
+                </Stack>
+              </Box>
             </Box>
-          </Box>
+          </RouterLink>
         ))}
       </SimpleGrid>
     </Box>

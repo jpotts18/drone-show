@@ -20,26 +20,6 @@ class SphereExperiment extends ExperimentBase<SphereSceneParams> {
     };
   }
 
-  setupGui(gui: dat.GUI): void {
-    gui
-      .add(this.params, "beatFrequency", 0, 20)
-      .onChange((value) => this.updateParams({ beatFrequency: value }));
-    gui
-      .add(this.params, "rotationSpeed", 0, 5)
-      .onChange((value) => this.updateParams({ rotationSpeed: value }));
-    gui.add(this.params, "sphereRadius", 0, 1).onChange((value) => {
-      this.updateParams({ sphereRadius: value });
-      this.setup();
-    });
-    gui
-      .add(this.params, "numDrones", 1, 200)
-      .step(1)
-      .onChange((value) => {
-        this.params.numDrones = value;
-        this.setup();
-      });
-  }
-
   setup(): void {
     if (!this.scene) return;
 

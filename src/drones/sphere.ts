@@ -19,7 +19,7 @@ class SphereDrone {
   }
 
   createMesh() {
-    const geometry = new THREE.SphereGeometry(0.5, 8, 8);
+    const geometry = new THREE.SphereGeometry(2, 16, 16);
     const material = new THREE.MeshStandardMaterial({ color: 0xff0000 });
     return new THREE.Mesh(geometry, material);
   }

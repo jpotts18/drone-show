@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
-import * as dat from "dat.gui";
 import { initWorld } from "./experiments/world";
 import ExperimentWrapper from "./ExperimentWrapper";
 
@@ -20,7 +19,7 @@ export abstract class ExperimentBase<T extends Record<string, any>> {
 
   abstract getInitialParams(): T;
   abstract setup(): void;
-  abstract setupGui(gui: dat.GUI, params: T): void;
+  abstract cleanup(): void;
   abstract animate(elapsedTime: number): void;
 
   updateParams(updates: Partial<T>) {
@@ -48,7 +47,7 @@ export function createExperiment<T extends Record<string, any>>(
 ) {
   return function ExperimentComponent({ title }: ExperimentProps) {
     const containerRef = useRef<HTMLDivElement>(null);
-    const guiRef = useRef<dat.GUI | null>(null);
+    // const guiRef = useRef<dat.GUI | null>(null);
     const experimentRef = useRef<ExperimentBase<T> | null>(null);
     const [experiment] = useState(() => new ExperimentClass());
 
@@ -75,16 +74,6 @@ export function createExperiment<T extends Record<string, any>>(
       window.addEventListener("resize", handleResize);
       handleResize();
 
-      if (guiRef.current === null) {
-        // Initialize and position the GUI
-        guiRef.current = new dat.GUI({ autoPlace: false });
-        experiment.setupGui(guiRef.current, experiment.getInitialParams());
-        const guiContainer = document.getElementById("gui-container");
-        if (guiContainer && guiRef.current.domElement) {
-          guiContainer.appendChild(guiRef.current.domElement);
-        }
-      }
-
       experiment.setup();
 
       function animate() {
@@ -100,10 +89,6 @@ export function createExperiment<T extends Record<string, any>>(
       return () => {
         if (containerRef.current) {
           containerRef.current.removeChild(renderer.domElement);
-        }
-        if (guiRef.current) {
-          guiRef.current.destroy();
-          guiRef.current = null;
         }
         window.removeEventListener("resize", handleResize);
         renderer.dispose();

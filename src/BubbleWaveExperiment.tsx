@@ -18,28 +18,6 @@ class BubbleWaveExperiment extends ExperimentBase<BubbleWaveSceneParams> {
     };
   }
 
-  setupGui(gui: dat.GUI): void {
-    gui
-      .add(this.params, "amplitude", 0, 20)
-      .onChange((value) => this.updateParams({ amplitude: value }));
-    gui
-      .add(this.params, "frequency", 0, 5)
-      .onChange((value) => this.updateParams({ frequency: value }));
-    gui
-      .add(this.params, "xWaveFactor", 0, 1)
-      .onChange((value) => this.updateParams({ xWaveFactor: value }));
-    gui
-      .add(this.params, "zWaveFactor", 0, 1)
-      .onChange((value) => this.updateParams({ zWaveFactor: value }));
-    gui
-      .add(this.params, "numDrones", 1, 200)
-      .step(1)
-      .onChange((value) => {
-        this.params.numDrones = value;
-        this.setup();
-      });
-  }
-
   setup(): void {
     if (!this.scene) return;
 
