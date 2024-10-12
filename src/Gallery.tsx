@@ -30,9 +30,15 @@ const experiments = [
   },
   {
     id: "cube",
-    title: "Cube",
+    title: "Pulsating Cube",
     description: "Cube with drones.",
     image: "/images/cube.png", // Provide appropriate images
+  },
+  {
+    id: "disk",
+    title: "Disk Ripple",
+    description: "Disk with drones.",
+    image: "/images/disk.png", // Provide appropriate images
   },
 ];
 
